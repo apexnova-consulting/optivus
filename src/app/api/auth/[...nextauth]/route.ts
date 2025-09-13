@@ -1,8 +1,9 @@
-import NextAuth from "next-auth"
+import NextAuth, { type NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { type User } from "next-auth"
 
 // For demo purposes, we'll use a simple in-memory user store
-const users = [
+const users: User[] = [
   {
     id: "1",
     name: "Demo Admin",
@@ -17,9 +18,9 @@ const users = [
     password: "demo123",
     role: "user",
   },
-]
+] as const
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -31,7 +32,7 @@ const handler = NextAuth({
         if (!credentials?.email || !credentials?.password) return null
 
         const user = users.find((user) => user.email === credentials.email)
-        if (!user || user.password !== credentials.password) return null
+        if (!user || (user as any).password !== credentials.password) return null
 
         return {
           id: user.id,
@@ -54,11 +55,12 @@ const handler = NextAuth({
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role
+        session.user.role = token.role as string
       }
       return session
     },
   },
-})
+}
 
+const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }
