@@ -1,25 +1,11 @@
 import { getServerSession } from "next-auth"
+import { authOptions } from "./auth.config"
 
 export async function getSession() {
-  return await getServerSession()
+  return await getServerSession(authOptions)
 }
 
 export async function getCurrentUser() {
   const session = await getSession()
   return session?.user
-}
-
-// Custom type for the user object including role
-export type User = {
-  id: string
-  name: string
-  email: string
-  role: "admin" | "user"
-}
-
-// Custom type for the session including our custom user type
-declare module "next-auth" {
-  interface Session {
-    user: User
-  }
 }
