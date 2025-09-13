@@ -17,6 +17,8 @@ const config: Config = {
     },
     extend: {
       colors: {
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         // Brand Colors
         'optivus': {
           blue: '#2563EB',    // Primary
