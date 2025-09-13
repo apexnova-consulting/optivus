@@ -1,30 +1,24 @@
-"use client"\n\nimport { Metadata } from "next"
+import type { Metadata } from "next"
 import { MainLayout } from "@/components/layout/main-layout"
 import { LoginForm } from "./login-form"
 import { Container } from "@/components/ui/container"
 
 export const metadata: Metadata = {
   title: "Login - Optivus",
-  description: "Log in to your Optivus account",
+  description: "Sign in to your Optivus account",
 }
 
 export default function LoginPage() {
   return (
     <MainLayout>
-      <Container className="flex min-h-[calc(100vh-4rem)] items-center justify-center py-12">
-        <div className="w-full max-w-md space-y-8">
+      <Container className="py-24 sm:py-32">
+        <div className="mx-auto max-w-md">
           <div className="text-center">
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
-              Sign in to your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Or{" "}
-              <a
-                href="/contact"
-                className="font-medium text-optivus-blue hover:text-optivus-teal"
-              >
-                start your 30-day free trial
-              </a>
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
+              Welcome Back
+            </h1>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+              Sign in to access your adoption dashboard
             </p>
           </div>
           <LoginForm />

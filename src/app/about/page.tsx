@@ -1,6 +1,4 @@
-"use client"
-
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { MainLayout } from "@/components/layout/main-layout"
 import { Container } from "@/components/ui/container"
 import { Button } from "@/components/ui/button"
@@ -15,7 +13,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <MainLayout>
-      {/* Rest of the component content */}
       <Container className="py-24 sm:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
