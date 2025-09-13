@@ -1,16 +1,12 @@
-import type { Metadata } from "next"
-import { MainLayout } from "@/components/layout/main-layout"
-import { LoginForm } from "./login-form"
-import { Container } from "@/components/ui/container"
+"use client"
 
-export const metadata: Metadata = {
-  title: "Login - Optivus",
-  description: "Sign in to your Optivus account",
-}
+import { Container } from "@/components/ui/container"
+import { ClientMainLayout } from "@/components/layout/client-main-layout"
+import { LoginForm } from "./login-form"
 
 export default function LoginPage() {
   return (
-    <MainLayout>
+    <ClientMainLayout>
       <Container className="py-24 sm:py-32">
         <div className="mx-auto max-w-md">
           <div className="text-center">
@@ -24,6 +20,6 @@ export default function LoginPage() {
           <LoginForm />
         </div>
       </Container>
-    </MainLayout>
+    </ClientMainLayout>
   )
 }

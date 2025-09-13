@@ -1,16 +1,11 @@
-import type { Metadata } from "next"
-import { MainLayout } from "@/components/layout/main-layout"
-import { Container } from "@/components/ui/container"
-import { Button } from "@/components/ui/button"
+"use client"
 
-export const metadata: Metadata = {
-  title: "Pricing - Optivus",
-  description: "Simple, transparent pricing for organizations of all sizes",
-}
+import { Container } from "@/components/ui/container"
+import { ClientMainLayout } from "@/components/layout/client-main-layout"
 
 export default function PricingPage() {
   return (
-    <MainLayout>
+    <ClientMainLayout>
       <Container className="py-24 sm:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
@@ -21,6 +16,6 @@ export default function PricingPage() {
           </p>
         </div>
       </Container>
-    </MainLayout>
+    </ClientMainLayout>
   )
 }
