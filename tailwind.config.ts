@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import { fontFamily } from 'tailwindcss/defaultTheme'
 
 const config: Config = {
   darkMode: ['class'],
@@ -31,7 +30,7 @@ const config: Config = {
         'dark-bg': '#0F172A',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', ...fontFamily.sans],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '1rem',
