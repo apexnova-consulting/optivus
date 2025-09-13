@@ -1,3 +1,5 @@
+"use client"
+
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
 import { StatCard } from "@/components/dashboard/stat-card"
 import { Card } from "@/components/ui/card"
@@ -24,7 +26,7 @@ export default function DashboardPage() {
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
           <p className="text-muted-foreground mt-2">
-            Welcome back! Here's an overview of your adoption metrics.
+            Welcome back! Here is an overview of your adoption metrics.
           </p>
         </div>
 
