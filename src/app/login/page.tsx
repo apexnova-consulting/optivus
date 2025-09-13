@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+"use client"\n\nimport { Metadata } from "next"
 import { MainLayout } from "@/components/layout/main-layout"
 import { LoginForm } from "./login-form"
 import { Container } from "@/components/ui/container"
