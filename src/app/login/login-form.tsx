@@ -10,12 +10,12 @@ import { Card } from "@/components/ui/card"
 export function LoginForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState("")
+  const [error, setError] = React.useState<string | null>(null)
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    setError("")
+    setError(null)
 
     const formData = new FormData(event.currentTarget)
     const email = formData.get("email") as string

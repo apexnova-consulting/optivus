@@ -1,23 +1,16 @@
-import "next-auth"
-import "next-auth/jwt"
+import { type SafeUser } from "./auth"
 
 declare module "next-auth" {
-  interface User {
-    id: string
-    name: string
-    email: string
-    role: string
-  }
+  interface User extends SafeUser {}
 
   interface Session {
-    user: User & {
-      role: string
-    }
+    user: SafeUser
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    role?: string
+    id: string
+    role: string
   }
 }
