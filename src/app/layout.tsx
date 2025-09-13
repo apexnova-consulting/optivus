@@ -3,7 +3,12 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers/providers"
 
-const inter = Inter({ subsets: ["latin"] })
+// Initialize Inter font with all weights
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -19,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
+      <body className="min-h-screen bg-white">
         <Providers>{children}</Providers>
       </body>
     </html>
