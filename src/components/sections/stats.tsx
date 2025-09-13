@@ -1,7 +1,6 @@
 "use client"
 
 import { BarChart3, Target, Users, Zap } from "lucide-react"
-import { Card } from "@/components/ui/card"
 
 const stats = [
   {
@@ -32,39 +31,36 @@ const stats = [
 
 export function Stats() {
   return (
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon
-          return (
-            <Card
-              key={stat.name}
-              className="relative overflow-hidden px-6 py-8 hover:shadow-lg transition-shadow duration-300"
-            >
-              {/* Decorative gradient blob */}
-              <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-gradient-to-r from-[#2563EB]/10 to-[#06B6D4]/10 blur-2xl transform rotate-45" />
-              
-              <div className="relative">
-                <dt className="flex items-center gap-2 text-sm font-medium text-gray-500">
-                  <Icon className="h-5 w-5 text-[#2563EB]" />
+    <div className="bg-white py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => {
+            const Icon = stat.icon
+            return (
+              <div
+                key={stat.name}
+                className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+              >
+                <dt className="flex items-center gap-3 text-sm font-medium text-gray-600">
+                  <Icon className="h-5 w-5 text-blue-600" />
                   {stat.name}
                 </dt>
-                <dd className="mt-2">
-                  <div className="text-3xl font-extrabold bg-gradient-to-r from-[#2563EB] to-[#06B6D4] bg-clip-text text-transparent">
+                <dd className="mt-3">
+                  <div className="text-3xl font-semibold tracking-tight text-blue-600">
                     {stat.value}
                   </div>
                   <div className="mt-2 text-sm font-medium text-emerald-600">
                     {stat.change}
                   </div>
                 </dd>
-              </div>
 
-              {/* Bottom gradient line */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#2563EB]/0 via-[#2563EB]/30 to-[#2563EB]/0" />
-            </Card>
-          )
-        })}
-      </dl>
+                {/* Decorative gradient line */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600/0 via-blue-600/30 to-blue-600/0"></div>
+              </div>
+            )
+          })}
+        </dl>
+      </div>
     </div>
   )
 }
