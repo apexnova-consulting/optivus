@@ -1,4 +1,4 @@
-import { type SafeUser } from "./auth"
+import { type SafeUser, type UserRole } from "./auth"
 
 declare module "next-auth" {
   interface User extends SafeUser {}
@@ -11,6 +11,6 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     id: string
-    role: string
+    role: UserRole
   }
 }
