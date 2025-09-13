@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: white;
+    --foreground: #1E293B;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: #0F172A;
+    --foreground: #F1F5F9;
   }
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white dark:bg-dark-bg text-gray-900 dark:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
