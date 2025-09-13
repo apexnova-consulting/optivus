@@ -2,57 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 1rem;
-  }
+/* Ensure base styles are applied */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
-/* Base styles */
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Custom styles */
+.gradient-text {
+  background: linear-gradient(to right, #2563EB, #06B6D4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Custom utilities */
-@layer utilities {
-  .gradient-text {
-    @apply bg-gradient-to-r from-[#2563EB] to-[#06B6D4] bg-clip-text text-transparent;
-  }
-  
-  .gradient-bg {
-    @apply bg-gradient-to-r from-[#2563EB] to-[#06B6D4];
-  }
-  
-  .gradient-border {
-    @apply relative after:absolute after:inset-0 after:p-[1px] after:bg-gradient-to-r after:from-[#2563EB] after:to-[#06B6D4] after:rounded-[inherit] after:-z-10;
-  }
+.gradient-bg {
+  background: linear-gradient(to right, #2563EB, #06B6D4);
 }
 
-/* Animations */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(to right, #2563EB, #06B6D4);
+  border-radius: inherit;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Animation keyframes */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -62,14 +52,19 @@
   animation: float 3s ease-in-out infinite;
 }
 
-/* Gradient animations */
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Ensure Tailwind classes work */
+.bg-blue-600 {
+  background-color: #2563EB !important;
 }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite;
+.text-blue-600 {
+  color: #2563EB !important;
+}
+
+.from-blue-600 {
+  --tw-gradient-from: #2563EB !important;
+}
+
+.to-cyan-500 {
+  --tw-gradient-to: #06B6D4 !important;
 }
