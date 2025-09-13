@@ -1,17 +1,16 @@
-import "./globals.css"
+import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import "./globals.css"
 import { Providers } from "@/components/providers/providers"
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
+const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-  title: "Optivus - Optimizing Adoption. Maximizing ROI.",
-  description: "Optivus tracks adoption, measures communication, and proves business impact — in 30 days or less.",
-  keywords: ["adoption tracking", "ROI measurement", "technology adoption", "SaaS analytics"],
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Optivus",
+    default: "Optivus - Optimizing Adoption. Maximizing ROI.",
+  },
+  description: "Optimize technology adoption and prove ROI with Optivus",
 }
 
 export default function RootLayout({
@@ -21,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} min-h-screen bg-white dark:bg-dark-bg`}>
+      <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
