@@ -1,51 +1,52 @@
-"use client"
-
-import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { BRAND } from "@/lib/constants"
 
 export function CTA() {
   return (
-    <section className="py-24 bg-gradient-to-br from-blue-600 to-blue-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="relative rounded-2xl overflow-hidden"
-        >
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#2563eb33,#06b6d433)] mix-blend-multiply" />
-            <div className="absolute right-0 top-0 -mt-96 -mr-96 w-[800px] h-[800px] rounded-full bg-blue-500/20 blur-3xl" />
-            <div className="absolute left-0 bottom-0 -mb-96 -ml-96 w-[800px] h-[800px] rounded-full bg-cyan-500/20 blur-3xl" />
+    <div className="bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+          <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Ready to maximize your AI ROI?
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+            Book a demo to see how we can help you measure and improve AI tool
+            adoption across your organization.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <Link
+              href="/contact"
+              className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Book Demo
+            </Link>
+            <Link
+              href="/about"
+              className="text-sm font-semibold leading-6 text-white"
+            >
+              Learn more <span aria-hidden="true">→</span>
+            </Link>
           </div>
-
-          <div className="relative py-24 px-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-6">
-              Ready to see ROI in 30 days?
-            </h2>
-            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
-              Join leading organizations using {BRAND.COMPANY.PRODUCT} to track, measure, and optimize their technology investments.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/contact">
-                <Button size="lg" variant="default" className="w-full sm:w-auto text-lg">
-                  {BRAND.PRIMARY_CTA}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/pricing">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg border-2 border-white text-white hover:bg-white/10">
-                  View Pricing
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </motion.div>
+          <svg
+            viewBox="0 0 1024 1024"
+            className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+            aria-hidden="true"
+          >
+            <circle
+              cx={512}
+              cy={512}
+              r={512}
+              fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)"
+              fillOpacity="0.7"
+            />
+            <defs>
+              <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+                <stop stopColor="#3b82f6" />
+                <stop offset={1} stopColor="#06b6d4" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
-    </section>
+    </div>
   )
 }

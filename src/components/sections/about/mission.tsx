@@ -1,31 +1,43 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { Target } from "lucide-react"
-
 export function Mission() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <div className="inline-flex items-center justify-center p-3 bg-blue-100 rounded-2xl mb-8">
-            <Target className="w-8 h-8 text-blue-600" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Our Mission
           </h2>
-          <p className="text-xl text-gray-600">
-            To make every enterprise software dollar work harder. We believe that the real return on technology 
-            comes from people adopting new ways of working — and that adoption can be measured, improved, and scaled.
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            We believe that AI tools should deliver measurable value to every
+            organization. Our mission is to help companies transform AI investments
+            into tangible business outcomes through data-driven adoption
+            strategies.
           </p>
-        </motion.div>
+        </div>
+        <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:gap-x-16">
+          <div className="relative pl-9">
+            <dt className="inline font-semibold text-gray-900">
+              <div className="absolute left-1 top-1 h-5 w-5 text-blue-600">•</div>
+              Measure What Matters
+            </dt>
+            <dd className="inline">
+              {" "}
+              Track real usage, adoption rates, and time savings to quantify the
+              true impact of your AI investments.
+            </dd>
+          </div>
+          <div className="relative pl-9">
+            <dt className="inline font-semibold text-gray-900">
+              <div className="absolute left-1 top-1 h-5 w-5 text-blue-600">•</div>
+              Drive Adoption
+            </dt>
+            <dd className="inline">
+              {" "}
+              Use data-driven insights to identify barriers and accelerate tool
+              adoption across your organization.
+            </dd>
+          </div>
+        </dl>
       </div>
-    </section>
+    </div>
   )
 }

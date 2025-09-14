@@ -1,74 +1,60 @@
-"use client"
-
-import { motion } from "framer-motion"
-import Image from "next/image"
-
 const team = [
   {
-    name: "Alex Thompson",
-    role: "Founder & CEO",
-    bio: "Former Head of Enterprise Adoption at leading SaaS companies. 15+ years experience in change management and digital transformation.",
-    image: "/placeholder-avatar.png",
+    name: "Sarah Chen",
+    role: "CEO & Founder",
+    bio: "Former Head of AI Implementation at Fortune 500 companies",
   },
   {
-    name: "Sarah Kim",
-    role: "Head of Product",
-    bio: "Product leader with deep expertise in analytics and user behavior. Previously led product teams at major enterprise software companies.",
-    image: "/placeholder-avatar.png",
+    name: "David Rodriguez",
+    role: "Head of Analytics",
+    bio: "15+ years experience in data science and analytics",
   },
   {
-    name: "Michael Chen",
-    role: "Head of Consulting",
-    bio: "Enterprise change management expert with track record of successful digital transformations at Fortune 500 companies.",
-    image: "/placeholder-avatar.png",
+    name: "Michelle Park",
+    role: "Client Success Lead",
+    bio: "Specialized in enterprise software adoption",
   },
 ]
 
 export function Team() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4"
-          >
-            Leadership & Team
-          </motion.h2>
+    <div className="bg-gray-50 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Our Team
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            We bring together experts in AI implementation, data analytics, and
+            organizational change to help you succeed.
+          </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {team.map((member, index) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              className="relative group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300 blur-xl" />
-              <div className="relative bg-white rounded-2xl p-8 shadow-lg border border-gray-100 h-full text-center">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 bg-gray-100">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    width={96}
-                    height={96}
-                    className="object-cover"
-                  />
+        <ul
+          role="list"
+          className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+        >
+          {team.map((person) => (
+            <li key={person.name}>
+              <div className="flex flex-col gap-6">
+                <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-gray-100">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                <div className="text-blue-600 font-medium mb-4">{member.role}</div>
-                <p className="text-gray-600 leading-relaxed">{member.bio}</p>
+                <div>
+                  <h3 className="text-lg font-semibold leading-8 text-gray-900">
+                    {person.name}
+                  </h3>
+                  <p className="text-base leading-7 text-blue-600">
+                    {person.role}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-gray-600">
+                    {person.bio}
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-    </section>
+    </div>
   )
 }
