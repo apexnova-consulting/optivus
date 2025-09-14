@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { AppNav } from "@/components/layout/app-nav"
 
-export default function DashboardLayout({
+export function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
