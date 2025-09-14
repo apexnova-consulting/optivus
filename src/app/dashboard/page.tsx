@@ -1,143 +1,75 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Users, Clock, TrendingUp, DollarSign } from "lucide-react"
+import { ProductTour } from "@/components/onboarding/product-tour"
 import { KPICard } from "@/components/dashboard/kpi-card"
 import { AdoptionChart } from "@/components/dashboard/adoption-chart"
 import { TeamBreakdown } from "@/components/dashboard/team-breakdown"
 import { UserTable } from "@/components/dashboard/user-table"
-import { supabase } from "@/lib/auth"
-
-// Mock data - replace with real data from Supabase
-const mockData = {
-  kpis: {
-    adoptionRate: {
-      value: "85%",
-      change: { value: 12, trend: "up" as const },
-    },
-    hoursSaved: {
-      value: "324",
-      change: { value: 8, trend: "up" as const },
-    },
-    estimatedRoi: {
-      value: "$45,200",
-      change: { value: 15, trend: "up" as const },
-    },
-    commScore: {
-      value: "4.2/5",
-      change: { value: 5, trend: "up" as const },
-    },
-  },
-  adoptionTrend: [
-    { date: "Week 1", adoption: 20, target: 30 },
-    { date: "Week 2", adoption: 35, target: 40 },
-    { date: "Week 3", adoption: 45, target: 50 },
-    { date: "Week 4", adoption: 60, target: 60 },
-    { date: "Week 5", adoption: 75, target: 70 },
-    { date: "Week 6", adoption: 85, target: 80 },
-  ],
-  teamBreakdown: [
-    { team: "Engineering", adoption: 92 },
-    { team: "Sales", adoption: 78 },
-    { team: "Marketing", adoption: 85 },
-    { team: "Support", adoption: 88 },
-  ],
-  users: [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john@example.com",
-      team: "Engineering",
-      lastActive: "2 hours ago",
-      usedTool: true,
-      hoursSaved: 12,
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      team: "Sales",
-      lastActive: "1 day ago",
-      usedTool: true,
-      hoursSaved: 8,
-    },
-    {
-      id: "3",
-      name: "Bob Johnson",
-      email: "bob@example.com",
-      team: "Marketing",
-      lastActive: "3 days ago",
-      usedTool: false,
-      hoursSaved: 0,
-    },
-  ],
-}
 
 export default function DashboardPage() {
-  const [data, setData] = useState(mockData)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return
-
-        // Fetch real data from Supabase here
-        // For now, using mock data
-        setData(mockData)
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-8">
+      <ProductTour />
+
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        data-tour="dashboard-kpis"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      >
         <KPICard
           title="Adoption Rate"
-          value={data.kpis.adoptionRate.value}
-          change={data.kpis.adoptionRate.change}
-          icon={Users}
+          value="85%"
+          change="+12%"
+          trend="up"
+          description="Average across all tools"
         />
         <KPICard
           title="Hours Saved"
-          value={data.kpis.hoursSaved.value}
-          change={data.kpis.hoursSaved.change}
-          icon={Clock}
+          value="324"
+          change="+18"
+          trend="up"
+          description="This month"
         />
         <KPICard
           title="Estimated ROI"
-          value={data.kpis.estimatedRoi.value}
-          change={data.kpis.estimatedRoi.change}
-          icon={DollarSign}
+          value="$45,200"
+          change="+$5,200"
+          trend="up"
+          description="Monthly savings"
         />
         <KPICard
           title="Communication Score"
-          value={data.kpis.commScore.value}
-          change={data.kpis.commScore.change}
-          icon={TrendingUp}
+          value="4.2/5"
+          change="+0.3"
+          trend="up"
+          description="Team feedback"
         />
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AdoptionChart data={data.adoptionTrend} />
-        <TeamBreakdown data={data.teamBreakdown} />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div data-tour="roi-calculator" className="rounded-lg border bg-white p-6">
+          <h3 className="text-lg font-semibold text-gray-900">Adoption Trend</h3>
+          <div className="mt-6">
+            <AdoptionChart />
+          </div>
+        </div>
+
+        <div data-tour="team-analytics" className="rounded-lg border bg-white p-6">
+          <h3 className="text-lg font-semibold text-gray-900">Team Breakdown</h3>
+          <div className="mt-6">
+            <TeamBreakdown />
+          </div>
+        </div>
       </div>
 
       {/* User Table */}
-      <UserTable users={data.users} />
+      <div data-tour="nudge-engine" className="rounded-lg border bg-white">
+        <div className="px-6 py-4">
+          <h3 className="text-lg font-semibold text-gray-900">User Activity</h3>
+        </div>
+        <UserTable />
+      </div>
     </div>
   )
 }
