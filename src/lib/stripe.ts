@@ -1,26 +1,30 @@
-import Stripe from 'stripe'
-import { PRICING } from './constants'
+import Stripe from "stripe"
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Missing STRIPE_SECRET_KEY")
+}
+
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16",
+  typescript: true,
 })
 
 export async function createCheckoutSession({
   priceId,
-  customerId,
   successUrl,
   cancelUrl,
-  metadata
+  customerId,
+  metadata,
 }: {
   priceId: string
-  customerId?: string
   successUrl: string
   cancelUrl: string
+  customerId?: string
   metadata?: Record<string, string>
 }) {
   const session = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    payment_method_types: ['card'],
+    mode: "subscription",
+    payment_method_types: ["card"],
     line_items: [
       {
         price: priceId,
@@ -31,52 +35,104 @@ export async function createCheckoutSession({
     cancel_url: cancelUrl,
     customer: customerId,
     metadata,
+    allow_promotion_codes: true,
   })
 
   return session
 }
 
-export async function createConsultingCheckoutSession({
-  type,
-  successUrl,
-  cancelUrl,
-  metadata
+export async function createCustomerPortalSession({
+  customerId,
+  returnUrl,
 }: {
-  type: keyof typeof PRICING.CONSULTING
-  successUrl: string
-  cancelUrl: string
-  metadata?: Record<string, string>
+  customerId: string
+  returnUrl: string
 }) {
-  const pricing = PRICING.CONSULTING[type]
-  
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    payment_method_types: ['card'],
-    line_items: [
+  const session = await stripe.billingPortal.sessions.create({
+    customer: customerId,
+    return_url: returnUrl,
+  })
+
+  return session
+}
+
+export async function getSubscription(subscriptionId: string) {
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+  return subscription
+}
+
+export async function cancelSubscription(subscriptionId: string) {
+  const subscription = await stripe.subscriptions.del(subscriptionId)
+  return subscription
+}
+
+export async function updateSubscription({
+  subscriptionId,
+  priceId,
+}: {
+  subscriptionId: string
+  priceId: string
+}) {
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+
+  const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
+    items: [
       {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: pricing.name,
-            description: pricing.features.join(", ")
-          },
-          unit_amount: pricing.price * 100,
-        },
-        quantity: 1,
+        id: subscription.items.data[0].id,
+        price: priceId,
       },
     ],
-    success_url: successUrl,
-    cancel_url: cancelUrl,
+  })
+
+  return updatedSubscription
+}
+
+// Handle subscription status changes client-side
+export async function handleSubscriptionChange(customerId: string) {
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "all",
+    expand: ["data.default_payment_method"],
+  })
+
+  return subscriptions.data[0]
+}
+
+// Get customer details including payment methods
+export async function getCustomerDetails(customerId: string) {
+  const customer = await stripe.customers.retrieve(customerId, {
+    expand: ["default_source", "invoice_settings.default_payment_method"],
+  })
+
+  return customer
+}
+
+// Update customer details
+export async function updateCustomer({
+  customerId,
+  email,
+  name,
+  metadata,
+}: {
+  customerId: string
+  email?: string
+  name?: string
+  metadata?: Record<string, string>
+}) {
+  const customer = await stripe.customers.update(customerId, {
+    email,
+    name,
     metadata,
   })
 
-  return session
+  return customer
 }
 
+// Create a new customer
 export async function createCustomer({
   email,
   name,
-  metadata
+  metadata,
 }: {
   email: string
   name: string
@@ -89,14 +145,4 @@ export async function createCustomer({
   })
 
   return customer
-}
-
-export async function getSubscription(subscriptionId: string) {
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
-  return subscription
-}
-
-export async function cancelSubscription(subscriptionId: string) {
-  const subscription = await stripe.subscriptions.cancel(subscriptionId)
-  return subscription
 }
