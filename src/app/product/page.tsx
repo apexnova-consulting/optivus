@@ -1,21 +1,19 @@
-"use client"
-
-import { Container } from "@/components/ui/container"
-import { ClientMainLayout } from "@/components/layout/client-main-layout"
+import { ProductHero } from "@/components/sections/product/hero"
+import { Dashboard } from "@/components/sections/product/dashboard"
+import { ROIAnalytics } from "@/components/sections/product/roi-analytics"
+import { NudgeEngine } from "@/components/sections/product/nudge-engine"
+import { Integrations } from "@/components/sections/product/integrations"
+import { CTA } from "@/components/sections/cta"
 
 export default function ProductPage() {
   return (
-    <ClientMainLayout>
-      <Container className="py-24 sm:py-32">
-        <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
-            Our Product
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-            Discover how Optivus helps organizations optimize their technology investments.
-          </p>
-        </div>
-      </Container>
-    </ClientMainLayout>
+    <main>
+      <ProductHero />
+      <Dashboard />
+      <ROIAnalytics />
+      <NudgeEngine />
+      <Integrations />
+      <CTA />
+    </main>
   )
 }
