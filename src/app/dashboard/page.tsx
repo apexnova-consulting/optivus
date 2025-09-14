@@ -1,194 +1,143 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
-import { StatCard } from "@/components/dashboard/stat-card"
-import { Card } from "@/components/ui/card"
-import { adoptionData } from "@/lib/mock-data"
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts"
-import { Brain, TrendingUp, Users } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Users, Clock, TrendingUp, DollarSign } from "lucide-react"
+import { KPICard } from "@/components/dashboard/kpi-card"
+import { AdoptionChart } from "@/components/dashboard/adoption-chart"
+import { TeamBreakdown } from "@/components/dashboard/team-breakdown"
+import { UserTable } from "@/components/dashboard/user-table"
+import { supabase } from "@/lib/auth"
+
+// Mock data - replace with real data from Supabase
+const mockData = {
+  kpis: {
+    adoptionRate: {
+      value: "85%",
+      change: { value: 12, trend: "up" as const },
+    },
+    hoursSaved: {
+      value: "324",
+      change: { value: 8, trend: "up" as const },
+    },
+    estimatedRoi: {
+      value: "$45,200",
+      change: { value: 15, trend: "up" as const },
+    },
+    commScore: {
+      value: "4.2/5",
+      change: { value: 5, trend: "up" as const },
+    },
+  },
+  adoptionTrend: [
+    { date: "Week 1", adoption: 20, target: 30 },
+    { date: "Week 2", adoption: 35, target: 40 },
+    { date: "Week 3", adoption: 45, target: 50 },
+    { date: "Week 4", adoption: 60, target: 60 },
+    { date: "Week 5", adoption: 75, target: 70 },
+    { date: "Week 6", adoption: 85, target: 80 },
+  ],
+  teamBreakdown: [
+    { team: "Engineering", adoption: 92 },
+    { team: "Sales", adoption: 78 },
+    { team: "Marketing", adoption: 85 },
+    { team: "Support", adoption: 88 },
+  ],
+  users: [
+    {
+      id: "1",
+      name: "John Doe",
+      email: "john@example.com",
+      team: "Engineering",
+      lastActive: "2 hours ago",
+      usedTool: true,
+      hoursSaved: 12,
+    },
+    {
+      id: "2",
+      name: "Jane Smith",
+      email: "jane@example.com",
+      team: "Sales",
+      lastActive: "1 day ago",
+      usedTool: true,
+      hoursSaved: 8,
+    },
+    {
+      id: "3",
+      name: "Bob Johnson",
+      email: "bob@example.com",
+      team: "Marketing",
+      lastActive: "3 days ago",
+      usedTool: false,
+      hoursSaved: 0,
+    },
+  ],
+}
 
 export default function DashboardPage() {
+  const [data, setData] = useState(mockData)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+
+        // Fetch real data from Supabase here
+        // For now, using mock data
+        setData(mockData)
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
-          <p className="text-muted-foreground mt-2">
-            Welcome back! Here is an overview of your adoption metrics.
-          </p>
-        </div>
-
-        {/* KPI Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Adoption Rate"
-            value={`${adoptionData.currentRate}%`}
-            icon={Users}
-            trend={{
-              value: adoptionData.currentRate - adoptionData.previousRate,
-              label: "vs last month",
-              positive: true,
-            }}
-          />
-          <StatCard
-            title="Active Users"
-            value={adoptionData.activeUsers}
-            description={`out of ${adoptionData.totalUsers} total users`}
-            icon={Users}
-          />
-          <StatCard
-            title="Time to Adoption"
-            value={`${adoptionData.timeToAdoption} days`}
-            icon={Brain}
-          />
-          <StatCard
-            title="ROI Impact"
-            value={`$${(adoptionData.roiImpact / 1000).toFixed(1)}k`}
-            icon={TrendingUp}
-            trend={{
-              value: 23,
-              label: "vs target",
-              positive: true,
-            }}
-          />
-        </div>
-
-        {/* Charts */}
-        <div className="grid gap-4 md:grid-cols-2">
-          {/* Adoption Over Time */}
-          <Card className="p-6">
-            <h3 className="font-semibold mb-4">Adoption Over Time</h3>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={adoptionData.adoptionOverTime}>
-                  <defs>
-                    <linearGradient id="adoption" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="5%"
-                        stopColor="#2563EB"
-                        stopOpacity={0.3}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="#2563EB"
-                        stopOpacity={0}
-                      />
-                    </linearGradient>
-                  </defs>
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={(value) =>
-                      new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })
-                    }
-                  />
-                  <YAxis tickFormatter={(value) => `${value}%`} />
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    dataKey="rate"
-                    stroke="#2563EB"
-                    fillOpacity={1}
-                    fill="url(#adoption)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-
-          {/* ROI Projection */}
-          <Card className="p-6">
-            <h3 className="font-semibold mb-4">ROI Projection</h3>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={adoptionData.roiProjection}>
-                  <XAxis dataKey="month" />
-                  <YAxis
-                    tickFormatter={(value) =>
-                      `$${(value / 1000).toFixed(0)}k`
-                    }
-                  />
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="actual"
-                    stroke="#2563EB"
-                    strokeWidth={2}
-                    dot={{ r: 4 }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="projected"
-                    stroke="#06B6D4"
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    dot={{ r: 4 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-        </div>
-
-        {/* Department Adoption */}
-        <Card className="p-6">
-          <h3 className="font-semibold mb-4">Department Adoption</h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={adoptionData.departmentAdoption}>
-                <XAxis dataKey="name" />
-                <YAxis tickFormatter={(value) => `${value}%`} />
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <Tooltip />
-                <Bar
-                  dataKey="rate"
-                  fill="#2563EB"
-                  radius={[4, 4, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-
-        {/* Recent Activity */}
-        <Card className="p-6">
-          <h3 className="font-semibold mb-4">Recent Activity</h3>
-          <div className="space-y-4">
-            {adoptionData.recentActivities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-center justify-between border-b border-gray-100 pb-4 dark:border-gray-800"
-              >
-                <div>
-                  <p className="font-medium">{activity.user}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {activity.action} • {activity.department}
-                  </p>
-                </div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {activity.time}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Card>
+    <div className="p-6 space-y-6">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <KPICard
+          title="Adoption Rate"
+          value={data.kpis.adoptionRate.value}
+          change={data.kpis.adoptionRate.change}
+          icon={Users}
+        />
+        <KPICard
+          title="Hours Saved"
+          value={data.kpis.hoursSaved.value}
+          change={data.kpis.hoursSaved.change}
+          icon={Clock}
+        />
+        <KPICard
+          title="Estimated ROI"
+          value={data.kpis.estimatedRoi.value}
+          change={data.kpis.estimatedRoi.change}
+          icon={DollarSign}
+        />
+        <KPICard
+          title="Communication Score"
+          value={data.kpis.commScore.value}
+          change={data.kpis.commScore.change}
+          icon={TrendingUp}
+        />
       </div>
-    </DashboardLayout>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <AdoptionChart data={data.adoptionTrend} />
+        <TeamBreakdown data={data.teamBreakdown} />
+      </div>
+
+      {/* User Table */}
+      <UserTable users={data.users} />
+    </div>
   )
 }
